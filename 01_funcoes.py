@@ -15,7 +15,11 @@ print ('O IMC calculado é ', resultado)
 
 from math import pi # importa biblioteca matemática do Python
 
-def calcular_area(base, altura, tipo):
+"""
+    Declaração de uma função para calcular a área de figuras 
+    geométricas planas
+"""
+def calcular_area(base, altura, tipo): # base, altura e tipo são parâmetros da função calcular_base
     if tipo == "R":     # Retângulo
         return base * altura
     elif tipo == "T":   # Triângulo
@@ -24,3 +28,8 @@ def calcular_area(base, altura, tipo):
         return (base / 2) * (altura / 2) * pi
     else:
         return None
+
+# Chamadas à função anteriormente declarada
+print("Área do retângulo 10x25: ", calcular_area(10,25, "R") )
+print("Área do triângulo 12x7: ", calcular_area(12,7, "T") )
+print("Área do círculo 10x10: ", calcular_area(10,10,"E"))

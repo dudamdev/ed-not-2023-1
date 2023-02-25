@@ -34,8 +34,40 @@ print(f"Posição do valor 33 na lista: {resultado}")
 linha()
 
 # TESTES COM NOMES
-from data.nomes_desord import nomes
+
+import sys
+sys.dont_write_bytecode = True      # Impede a criação do cache
+
+from time import time
+
+from data.lista_nomes import nomes
 
 # Busca pelo nome EDUARDA
+hora_ini = time()
 resultado = busca_sequencial(nomes, "EDUARDA")
+hora_fim = time()
 print(f"Posição do nome Eduarda na lista: {resultado}")
+print(f"Tempo gasto: {round((hora_fim-hora_ini) * 1000, 3)} ms")
+
+# Busca pelo nome Gabriela
+hora_ini = time()
+resultado = busca_sequencial(nomes, "GABRIELA")
+hora_fim = time()
+print(f"Posição do nome Gabriela na lista: {resultado}")
+print(f"Tempo gasto: {round((hora_fim-hora_ini) * 1000, 3)} ms")
+
+# Busca pelo nome Vanessa
+hora_ini = time()
+resultado = busca_sequencial(nomes, "VANESSA")
+hora_fim = time()
+print(f"Posição do nome Vanessa na lista: {resultado}")
+print(f"Tempo gasto: {round((hora_fim-hora_ini) * 1000, 3)} ms")
+
+# Busca pelo nome Orkutilson
+hora_ini = time()
+resultado = busca_sequencial(nomes, "ORKUTILSON")
+hora_fim = time()
+print(f"Posição do nome Orkutilson na lista: {resultado}")
+print(f"Tempo gasto: {round((hora_fim-hora_ini) * 1000, 3)} ms")
+
+

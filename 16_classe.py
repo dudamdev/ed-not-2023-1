@@ -12,6 +12,7 @@
     snake_case ---- memory_peak     ---- variáveis e nomes de funções em Python e C
     slug-case  ---- font-family     ---- propriedades em CSS
 """
+from math import pi
 
 # Por convenção, nomes de classes seguem a convenção PascalCase
 class FormaGeometrica:
@@ -28,30 +29,56 @@ class FormaGeometrica:
          ~> variáveis passam a ser chamadas ATRIBUTOS
     """
     def __init__(self, base, altura, tipo):
+        self.set_base(base)
+        self.set_altura(altura)
+        self.set_tipo(tipo)
 
-        # Validação dos parâmetros recebidos
-        if type(base) not in [int, float] or base <= 0:
-            raise Exception(f"ERRO: a base ({base}) deve ser numérica e maior que zero.")
-        
-        if type(altura) not in [int, float] or altura <= 0:
-            raise Exception(f"ERRO: a altura ({altura}) deve ser numérica e maior que zero.")
-        
-        if tipo not in ["R", "T", "E"]:
-            raise Exception(f"ERRO: o tipo ('{tipo}') deve ser 'R', 'T' ou 'E'.")
+    # Métodos setter
+    def set_base(self, val): 
+        if type(val) not in [int, float] or val <= 0:
+            raise Exception(f"ERRO: a base ({val}) deve ser numérica e maior que zero.")
+        self.__base = val
 
-        # Armazenando os dados recebidos DENTRO do objeto, com self
-        self.__base = base
-        self.__altura = altura
-        self.__tipo = tipo
+
+    def set_altura(self, val):
+        if type(val) not in [int, float] or val <= 0:
+            raise Exception(f"ERRO: a altura ({val}) deve ser numérica e maior que zero.")
+        self.__altura = val
+
+    def set_tipo(self, val):
+        if val not in ["R", "T", "E"]:
+            raise Exception(f"ERRO: o tipo ('{val}') deve ser 'R', 'T' ou 'E'.")
+        self.__tipo = val
+    
+    # Métodos getter
+    def get_base(self):
+        return self.__base
+
+    def get_altura(self):
+        return self.__altura
+
+    def get_tipo(self):
+        return self.__tipo
+
+    # Converte o objeto para uma representação personalizada em string
+    def __str__(self):
+        return f"<Base: {self.__base}; Altura: {self.__altura}; Tipo: {self.__tipo}>"
+
+    def calc_area(self):
+        if self.__tipo == "R":      # Retângulo
+            return self.__base * self.__altura
+        elif self.__tipo == "T":    # Triângulo
+            return self.__base * self.__altura / 2
+        else:                       # Elipse/circulo
+            return (self.__base / 2) * (self.__altura / 2) * pi
 
 ##############################################################################################
 
 # Criando um objeto chamado formal a partir da classe FormaGeometrica
 forma1 = FormaGeometrica(10, 7.2, "T")
+forma2 = FormaGeometrica(7, 4.5, "R")
+forma3 = FormaGeometrica(12, 12, "E")
 
-forma1.base = "batata"
-forma1.altura = -4
-
-print(f"Base: {forma1.base}")
-print(f"Altura: {forma1.altura}")
-print(f"Tipo: {forma1.__tipo}")
+print(forma1, f"Área: {forma1.calc_area()}")
+print(forma2, f"Área: {forma2.calc_area()}")
+print(forma3, f"Área: {forma3.calc_area()}")

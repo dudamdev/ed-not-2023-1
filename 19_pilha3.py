@@ -19,9 +19,12 @@ for pos in range(len(expr)):
     # Desempilha a posição do último abre parêntese empilhado
     # quando um fecha parênteses é encontrado
     elif expr[pos] == ")":
-        pos_abre = pilha.pop()
-        print(f"Parênteses aberto na posição {pos_abre} foi fechado na posição {pos}")
-        # print(pilha)
+        if pilha.is_empty():
+            print(f"Parênteses fechado na posição {pos} sem aberto correspondente")
+        else:
+            pos_abre = pilha.pop()
+            print(f'Parêntese aberto na posição {pos_abre} foi fechado na posição {pos}')
+            print(pilha)
 
 # Verifica sobras na pilha
 while not pilha.is_empty():

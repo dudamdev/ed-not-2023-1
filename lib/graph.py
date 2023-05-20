@@ -64,27 +64,55 @@ class Graph:
         de um vértice
     """
 
-    def __degree(self, vertex):
-        # Se vertex existir no dicionário self.__data, retorna o
-        # número de elementos do respectivo conjunto de vértices
-        # adjacentes
+    def degree(self, vertex):
+        result = 0
+        # GRAU DE SAIDA (OUT-DEGREE)
+        # É determinado contando-se o número de arestas associadas
+        # à entrada de dicionário correspondente ao vértice
         if vertex in self.__data:
-            return len(self.__data[vertex])
-        else:
-            return 0
+            result = len(self.__data[vertex])
+
+        # GRAU DE ENTRADA (IN-DEGREE)
+        # É determinado procurando-se referências ao vértice nas
+        # arestas associadas a todos os vértices do dicionário
+        for v in self.__data.keys():    # Percorre o dicionário
+            for e in self.__data[v]:    # Percorre os conjuntos
+                if vertex == e[0]:
+                    result += 1
+
+        # O grau final é a soma dos graus de entrada e saída
+        return result
 
     """
-        Método que verifica se um determinado vértice é referenciado 
-        por outro (necessário na exclusão de vértices de grafos
-        direcionados)
+        Método que exclui um vértice do grafo
+        (Para que um vértice possa ser excluido, ele não pode
+        ter arestas incidentes, ou seja, seu grau deve ser 0,
+        nem ser referenciado por outros vértices)
     """
 
-    def __is_referenced(self, vertex):
-        for vtx_ref in self.__data.keys():      # Percorrendo o dicionário
-            for edge in self.__data[vtx_ref]:   # Percorrendo os conjuntos
-                if vertex == edge[0]:
-                    return True
-        return False
+    def remove_vertex(self, vertex):
+        if self.degree(vertex) != 0:
+            raise Exception(
+                "ERRO: impossível remover um vértice com arestas incidentes à ele.")
+        # Vértice de grau 0, podemos excluir, caso exista no dicionário
+        elif vertex in self.__data:
+            del self.__data[vertex]
+
+    """
+        Método que remove uma aresta do grafo 
+    """
+
+    def remove_edge(self, origin, dest, rel=None):
+        edge1 = (dest, rel)
+
+        # Retira a tupla edge1 do conjunto de arestas do vértice de origem
+        self.__data[origin].discard(edge1)
+
+        # Se o grafo não for direcionado, precisamos remover também a aresta
+        # em sentido contrário
+        if not self.__is_directed:
+            edge2 = (origin, rel)
+            self.__data[dest].discard(edge2)
 
     """
         Método que representa o grafo como uma string
@@ -94,18 +122,3 @@ class Graph:
         output = str(self.__data)
         output += f"\nis_directed: {self.__is_directed}\n\n"
         return output
-
-###################################################################################
-
-
-estradas = Graph()
-print(estradas)
-
-estradas.add_vertex("Fraca")
-print(estradas)
-
-estradas.add_edge("Franca", "Batatais", "Rod. Candido Portinari")
-print(estradas)
-
-estradas.add_edge("Franca", "Restinga")
-print(estradas)

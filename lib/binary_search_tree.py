@@ -65,3 +65,48 @@ class BinarySearchTree:
             if root.right is None: root.right = new
             # Senão, passa a considerar o nodo da direita como raiz
             else: self.__insert_node(root.right, new)
+
+    """
+        Método que percorre a árvore em-ordem
+
+        1°: percorre recuursivamente a subárvore esquerda em-order
+        2°: visita a raiz
+        3°: percorre recursivamente a subárore direita em-ordem
+    """
+    def in_order_traversal(self, action, root = False):
+        # Se root for False, começamos pela raiz da árvore
+
+        if root is False: root = self.__root
+
+        if root is not None:
+            self.in_order_traversal(action, root.left)   # 1°
+            action(root.data)                            # 2°
+            self.in_order_traversal(action, root.right)  # 3°
+
+    """
+        Método PÚBLICO que verifica se um valor existe na ABB
+    """
+    def exists(self, key):
+        node = self.__search_node(self.__root, key)
+        return (node is not None)
+
+    """
+        Método PRIVADO que procura por um nodo que contém um valor
+        fornecido (key) e retorna esse nodo, se ele existir, ou None,
+        caso contrário
+    """
+    def __search_node(self, root, key):
+        # 1° caso: árvore vazia
+        if root is None: return None
+
+        # 2° caso: o valor de key é MENOR que o valor raiz
+        # Continua a buscar recursivamente pela subárvore ESQUERDA
+        if key < root.data: return self.__search_node(root.left, key)
+
+        # 3° caso: o valor de jey é MAIOR que o valor na raiz
+        # Continua a buscar recursivamente pela subárvore DIREITA
+        if key > root.data: return self.__search_node(root.right, key)
+
+        # 4° caso: o valor de key é IGUAL ao valor na raiz
+        # ENCONTROU O NODO; retorna o nodo root
+        return root
